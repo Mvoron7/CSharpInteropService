@@ -17,6 +17,9 @@ namespace CSharpInteropService
     {
         [DispId(1)]
         object[] GenericInvoke(string dllFile, string className, string methodName, object[] parameters);
+
+        [DispId(2)]
+        object[] GenericInvoke(string dllFile, string className, string methodName);
     }
 
     [ComVisible(true), Guid(LibraryInvoke.ClassId)]
@@ -54,6 +57,11 @@ namespace CSharpInteropService
             }
 
             return (object[])classMethod.Invoke(classInstance, parameters);
+        }
+
+        public object[] GenericInvoke(string dllFile, string className, string methodName)
+        {
+            return GenericInvoke(dllFile, className, methodName, null);
         }
 
         private void OnMessageEvent(string message)
