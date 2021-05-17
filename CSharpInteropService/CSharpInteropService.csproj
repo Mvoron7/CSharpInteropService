@@ -52,7 +52,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(FrameworkSdkDir)bin\NETFX 4.8 Tools\tlbexp.exe" "$(TargetFileName)" "$(TargetName).tlb"</PostBuildEvent>
+    <PostBuildEvent>"$(FrameworkSdkDir)bin\NETFX 4.8 Tools\tlbexp.exe" "$(TargetFileName)" "$(TargetName).tlb"
+"$(FrameworkDir)\RegAsm.exe" /regfile:"$(TargetName).reg" "$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
