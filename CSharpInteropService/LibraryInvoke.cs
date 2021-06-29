@@ -3,25 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic;
 
-namespace CSharpInteropService
-{
-    [ComVisible(true), Guid(LibraryInvoke.EventsId), InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
-    public interface ILibraryInvokeEvent
-    {
-        [DispId(1)]
-        void MessageEvent(string message);
-    }
-
-    [ComVisible(true), Guid(LibraryInvoke.InterfaceId)]
-    public interface ILibraryInvoke
-    {
-        [DispId(1)]
-        object[] GenericInvoke(string dllFile, string className, string methodName, object[] parameters);
-
-        [DispId(2)]
-        object[] GenericInvoke(string dllFile, string className, string methodName);
-    }
-
+namespace CSharpInteropService {
     [ComVisible(true), Guid(LibraryInvoke.ClassId)]
     [ComSourceInterfaces("CSharpInteropService.ILibraryInvokeEvent")]
     [ComClass(LibraryInvoke.ClassId, LibraryInvoke.InterfaceId, LibraryInvoke.EventsId)]
@@ -44,12 +26,8 @@ namespace CSharpInteropService
 
             EventInfo eventMessageEvent = classType.GetEvent("MessageEvent", BindingFlags.NonPublic | BindingFlags.Static);
 
-            if (eventMessageEvent != null)
-            {
-                Type typeMessageEvent = eventMessageEvent.EventHandlerType;
-
-                MethodInfo handler = typeof(LibraryInvoke).GetMethod("OnMessageEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-                Delegate del = Delegate.CreateDelegate(typeMessageEvent, this, handler);
+            if (eventMessageEvent != null) {
+                Delegate del = GetDelegate(eventMessageEvent);
 
                 MethodInfo addHandler = eventMessageEvent.GetAddMethod(true);
                 Object[] addHandlerArgs = { del };
@@ -59,9 +37,23 @@ namespace CSharpInteropService
             return (object[])classMethod.Invoke(classInstance, parameters);
         }
 
+        private Delegate GetDelegate(EventInfo eventMessageEvent) {
+            Type typeMessageEvent = eventMessageEvent.EventHandlerType;
+            MethodInfo handler = typeof(LibraryInvoke).GetMethod("OnMessageEvent", BindingFlags.NonPublic | BindingFlags.Instance);
+            return Delegate.CreateDelegate(typeMessageEvent, this, handler);
+        }
+
         public object[] GenericInvoke(string dllFile, string className, string methodName)
         {
             return GenericInvoke(dllFile, className, methodName, null);
+        }
+
+        public void GenericInvokeSub(string dllFile, string className, string methodName, object[] parameters) {
+            GenericInvoke(dllFile, className, methodName, parameters);
+        }
+
+        public void GenericInvokeSub(string dllFile, string className, string methodName) {
+            GenericInvoke(dllFile, className, methodName, null);
         }
 
         private void OnMessageEvent(string message)

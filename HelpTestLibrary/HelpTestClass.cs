@@ -8,11 +8,11 @@ namespace HelpTestLibrary {
         public object[] InputObjectReturnArray(object first, object second) =>  new object[] { first, second };
         public object[] InputVoidReturnArray() => new object[] { "first", "second" };
 
-        /*public void InputInt(int first, int second) { }
-        public void InputString(string first, string second) { }
-        public void InputDouble(double first, double second) { }
-        public void InputObject(object first, object second) { }
-        public void InputVoid() { } /* */
+        public void InputIntReturnVoid(int first, int second) { }
+        public void InputStringReturnVoid(string first, string second) { }
+        public void InputDoubleReturnVoid(double first, double second) { }
+        public void InputObjectReturnVoid(object first, object second) { }
+        public void InputVoidReturnVoid() { }
 
         public static string GetAddres() {
             Assembly assembly = Assembly.GetExecutingAssembly();

@@ -18,6 +18,12 @@
         internal const string InputObjectReturnArray = "InputObjectReturnArray";
         internal const string InputVoidReturnArray = "InputVoidReturnArray";
 
+        internal const string InputIntReturnVoid = "InputIntReturnVoid";
+        internal const string InputStringReturnVoid = "InputStringReturnVoid";
+        internal const string InputDoubleReturnVoid = "InputDoubleReturnVoid";
+        internal const string InputObjectReturnVoid = "InputObjectReturnVoid";
+        internal const string InputVoidReturnVoid = "InputVoidReturnVoid";
+
         public Chest() {
             dllFile = HelpTestLibrary.HelpTestClass.GetAddres();
             className = "HelpTestLibrary.HelpTestClass";

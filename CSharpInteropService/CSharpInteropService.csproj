@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstraction\ILibraryInvoke.cs" />
+    <Compile Include="Abstraction\ILibraryInvokeEvent.cs" />
     <Compile Include="LibraryInvoke.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
