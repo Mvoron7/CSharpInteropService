@@ -46,6 +46,14 @@ namespace CSharpInteropService {
             return GenericInvoke(dllFile, className, methodName, null);
         }
 
+        public void GenericInvokeSub(string dllFile, string className, string methodName, object[] parameters) {
+            GenericInvoke(dllFile, className, methodName, parameters);
+        }
+
+        public void GenericInvokeSub(string dllFile, string className, string methodName) {
+            GenericInvoke(dllFile, className, methodName, null);
+        }
+
         private void OnMessageEvent(string message)
         {
             MessageEvent?.Invoke(message);

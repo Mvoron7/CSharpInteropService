@@ -10,5 +10,11 @@ namespace CSharpInteropService {
 
         [DispId(2)]
         object[] GenericInvoke(string dllFile, string className, string methodName);
+
+        [DispId(3)]
+        void GenericInvokeSub(string dllFile, string className, string methodName, object[] parameters);
+        
+        [DispId(3)]
+        void GenericInvokeSub(string dllFile, string className, string methodName);
     }
 }
