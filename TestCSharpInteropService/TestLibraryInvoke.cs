@@ -3,8 +3,11 @@ using NUnit.Framework;
 
 namespace TestCSharpInteropService {
     public class TestLibraryInvoke {
+        private Chest _chest;
+
         [SetUp]
         public void Setup() {
+            _chest = new Chest();
         }
 
         [Test]
@@ -19,17 +22,27 @@ namespace TestCSharpInteropService {
         public void CallMethodWithoutParameters() {
             LibraryInvoke invoker = new LibraryInvoke();
 
-            invoker.GenericInvoke(Chest.dllFile, Chest.className, "InputVoidReturnArray");
+            invoker.GenericInvoke(_chest.dllFile, _chest.className, "InputVoidReturnArray");
         }
 
         [Test]
         public void CalledMethodWithoutParametersReturnAnswer() {
             LibraryInvoke invoker = new LibraryInvoke();
 
-            var answer = invoker.GenericInvoke(Chest.dllFile, Chest.className, "InputVoidReturnArray");
+            object[] answer = invoker.GenericInvoke(_chest.dllFile, _chest.className, "InputVoidReturnArray");
 
             Assert.AreEqual("first", answer[0]);
             Assert.AreEqual("second", answer[1]);
+        }
+
+        [Test]
+        public void CalledMethodWithoutParametersReturnCorrectTypeAnswer() {
+            LibraryInvoke invoker = new LibraryInvoke();
+
+            object[] answer = invoker.GenericInvoke(_chest.dllFile, _chest.className, "InputVoidReturnArray");
+
+            Assert.AreEqual("".GetType(), answer[0].GetType());
+            Assert.AreEqual("".GetType(), answer[1].GetType());
         }
         #endregion
 
@@ -43,7 +56,7 @@ namespace TestCSharpInteropService {
             LibraryInvoke invoker = new LibraryInvoke();
             object[] parameters = new object[] { first, second };
 
-            invoker.GenericInvoke(Chest.dllFile, Chest.className, method, parameters);
+            invoker.GenericInvoke(_chest.dllFile, _chest.className, method, parameters);
         }
 
         [Test]
@@ -55,7 +68,7 @@ namespace TestCSharpInteropService {
             LibraryInvoke invoker = new LibraryInvoke();
             object[] parameters = new object[] { first, second };
 
-            var answer = invoker.GenericInvoke(Chest.dllFile, Chest.className, method, parameters);
+            object[] answer = invoker.GenericInvoke(_chest.dllFile, _chest.className, method, parameters);
 
             Assert.AreEqual(first, answer[0]);
             Assert.AreEqual(second, answer[1]);
@@ -70,7 +83,7 @@ namespace TestCSharpInteropService {
             LibraryInvoke invoker = new LibraryInvoke();
             object[] parameters = new object[] { first, second };
 
-            var answer = invoker.GenericInvoke(Chest.dllFile, Chest.className, method, parameters);
+            object[] answer = invoker.GenericInvoke(_chest.dllFile, _chest.className, method, parameters);
 
             Assert.AreEqual(first.GetType(), answer[0].GetType());
             Assert.AreEqual(second.GetType(), answer[1].GetType());

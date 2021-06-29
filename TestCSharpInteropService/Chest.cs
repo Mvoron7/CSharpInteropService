@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace TestCSharpInteropService {
     class Chest {
-        internal const string dllFile = @"C:\Users\Danilin_a\source\repos\CSharpInteropService\HelpTestLibrary\bin\Debug\HelpTestLibrary.dll";
-        internal const string className = "HelpTestLibrary.HelpTestClass";
-        internal const string methodName = "";
+        internal readonly string dllFile;
+        internal readonly string className;
+        internal readonly string methodName;
+
+        public Chest() {
+            dllFile = HelpTestLibrary.HelpTestClass.GetAddres();
+            className = "HelpTestLibrary.HelpTestClass";
+            methodName = "";
+        }
     }
 }

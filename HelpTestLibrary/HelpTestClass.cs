@@ -1,4 +1,6 @@
-﻿namespace HelpTestLibrary {
+﻿using System.Reflection;
+
+namespace HelpTestLibrary {
     public class HelpTestClass {
         public object[] InputIntReturnArray(int first, int second) =>  new object[] { first, second };
         public object[] InputStringReturnArray(string first, string second) =>  new object[] { first, second };
@@ -11,5 +13,10 @@
         public void InputDouble(double first, double second) { }
         public void InputObject(object first, object second) { }
         public void InputVoid() { } /* */
+
+        public static string GetAddres() {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            return assembly.Location;
+        }
     }
 }

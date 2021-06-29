@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CSharpInteropService\CSharpInteropService.csproj" />
+    <ProjectReference Include="..\HelpTestLibrary\HelpTestLibrary.csproj" />
   </ItemGroup>
 
 </Project>
