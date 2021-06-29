@@ -26,12 +26,8 @@ namespace CSharpInteropService {
 
             EventInfo eventMessageEvent = classType.GetEvent("MessageEvent", BindingFlags.NonPublic | BindingFlags.Static);
 
-            if (eventMessageEvent != null)
-            {
-                Type typeMessageEvent = eventMessageEvent.EventHandlerType;
-
-                MethodInfo handler = typeof(LibraryInvoke).GetMethod("OnMessageEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-                Delegate del = Delegate.CreateDelegate(typeMessageEvent, this, handler);
+            if (eventMessageEvent != null) {
+                Delegate del = GetDelegate(eventMessageEvent);
 
                 MethodInfo addHandler = eventMessageEvent.GetAddMethod(true);
                 Object[] addHandlerArgs = { del };
@@ -39,6 +35,12 @@ namespace CSharpInteropService {
             }
 
             return (object[])classMethod.Invoke(classInstance, parameters);
+        }
+
+        private Delegate GetDelegate(EventInfo eventMessageEvent) {
+            Type typeMessageEvent = eventMessageEvent.EventHandlerType;
+            MethodInfo handler = typeof(LibraryInvoke).GetMethod("OnMessageEvent", BindingFlags.NonPublic | BindingFlags.Instance);
+            return Delegate.CreateDelegate(typeMessageEvent, this, handler);
         }
 
         public object[] GenericInvoke(string dllFile, string className, string methodName)
