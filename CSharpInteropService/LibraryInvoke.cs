@@ -3,25 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic;
 
-namespace CSharpInteropService
-{
-    [ComVisible(true), Guid(LibraryInvoke.EventsId), InterfaceType(ComInterfaceType.InterfaceIsIDispatch)]
-    public interface ILibraryInvokeEvent
-    {
-        [DispId(1)]
-        void MessageEvent(string message);
-    }
-
-    [ComVisible(true), Guid(LibraryInvoke.InterfaceId)]
-    public interface ILibraryInvoke
-    {
-        [DispId(1)]
-        object[] GenericInvoke(string dllFile, string className, string methodName, object[] parameters);
-
-        [DispId(2)]
-        object[] GenericInvoke(string dllFile, string className, string methodName);
-    }
-
+namespace CSharpInteropService {
     [ComVisible(true), Guid(LibraryInvoke.ClassId)]
     [ComSourceInterfaces("CSharpInteropService.ILibraryInvokeEvent")]
     [ComClass(LibraryInvoke.ClassId, LibraryInvoke.InterfaceId, LibraryInvoke.EventsId)]
