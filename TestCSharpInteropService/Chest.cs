@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CSharpInteropService;
+using NUnit.Framework;
+using System;
 
 namespace TestCSharpInteropService {
     class Chest {
@@ -31,46 +33,61 @@ namespace TestCSharpInteropService {
             className = "HelpTestLibrary.HelpTestClass";
         }
 
-        public string GetDllFile(Use useDll) {
+        public string GetDllFile(ParameterKinds useDll) {
             switch (useDll) {
-                case Use.Null:
+                case ParameterKinds.Null:
                     return null;
-                case Use.Empty:
+                case ParameterKinds.Empty:
                     return "";
-                case Use.Incorrect:
+                case ParameterKinds.Incorrect:
                     return "IncorrectFileName";
-                case Use.Correct:
+                case ParameterKinds.Correct:
                     return dllFile;
                 default:
                     throw new ArgumentException("Недопустимое значение перечисления.");
             }
         }
 
-        public string GetClassName(Use useClass) {
+        public string GetClassName(ParameterKinds useClass) {
             switch (useClass) {
-                case Use.Null:
+                case ParameterKinds.Null:
                     return null;
-                case Use.Empty:
+                case ParameterKinds.Empty:
                     return "";
-                case Use.Incorrect:
+                case ParameterKinds.Incorrect:
                     return "IncorrectClassName";
-                case Use.Correct:
+                case ParameterKinds.Correct:
                     return className;
                 default:
                     throw new ArgumentException("Недопустимое значение перечисления.");
             }
         }
 
-        public string GetMethodName(Methods useMethod) {
+        public string GetMethodName(MethodsKinds useMethod) {
             switch (useMethod) {
-                case Methods.Null:
+                case MethodsKinds.Null:
                     return null;
-                case Methods.Empty:
+                case MethodsKinds.Empty:
                     return "";
-                case Methods.Incorrect:
+                case MethodsKinds.Incorrect:
                     return "IncorrectMethodName";
-                case Methods.InputVoidReturnVoid:
+                case MethodsKinds.DefaultCorrect:
                     return InputVoidReturnVoid;
+                default:
+                    throw new ArgumentException("Недопустимое значение перечисления.");
+            }
+        }
+
+        public TestDelegate GetDelegate(MethodTypes useArguments, LibraryInvoke invoker, string dllFile, string className, string MethodName) {
+            switch (useArguments) {
+                case MethodTypes.InputObjectReturnArray:
+                    return new TestDelegate(() => invoker.GenericInvoke(dllFile, className, MethodName, null));
+                case MethodTypes.InputObjectReturnVoid:
+                    return new TestDelegate(() => invoker.GenericInvokeSub(dllFile, className, MethodName, null));
+                case MethodTypes.InputVoidReturnArray:
+                    return new TestDelegate(() => invoker.GenericInvoke(dllFile, className, MethodName));
+                case MethodTypes.InputVoidReturnVoid:
+                    return new TestDelegate(() => invoker.GenericInvokeSub(dllFile, className, MethodName));
                 default:
                     throw new ArgumentException("Недопустимое значение перечисления.");
             }

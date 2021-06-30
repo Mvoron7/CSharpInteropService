@@ -1,5 +1,5 @@
 ﻿namespace TestCSharpInteropService {
-    public enum Use {
+    public enum ParameterKinds {
         Null,
         Empty,
         Incorrect,

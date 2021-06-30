@@ -7,24 +7,24 @@ namespace TestCSharpInteropService {
         private static Chest _chest = new Chest();
 
         [Test]
-        [TestCase(MethodTypes.InputVoidReturnVoid, Use.Null, Use.Null, Methods.Null, "dllFile")]
-        [TestCase(MethodTypes.InputVoidReturnVoid, Use.Correct, Use.Null, Methods.Null, "className")]
-        [TestCase(MethodTypes.InputVoidReturnVoid, Use.Correct, Use.Correct, Methods.Null, "methodName")]
-        [TestCase(MethodTypes.InputVoidReturnArray, Use.Null, Use.Null, Methods.Null, "dllFile")]
-        [TestCase(MethodTypes.InputVoidReturnArray, Use.Correct, Use.Null, Methods.Null, "className")]
-        [TestCase(MethodTypes.InputVoidReturnArray, Use.Correct, Use.Correct, Methods.Null, "methodName")]
-        [TestCase(MethodTypes.InputObjectReturnVoid, Use.Null, Use.Null, Methods.Null, "dllFile")]
-        [TestCase(MethodTypes.InputObjectReturnVoid, Use.Correct, Use.Null, Methods.Null, "className")]
-        [TestCase(MethodTypes.InputObjectReturnVoid, Use.Correct, Use.Correct, Methods.Null, "methodName")]
-        [TestCase(MethodTypes.InputObjectReturnArray, Use.Null, Use.Null, Methods.Null, "dllFile")]
-        [TestCase(MethodTypes.InputObjectReturnArray, Use.Correct, Use.Null, Methods.Null, "className")]
-        [TestCase(MethodTypes.InputObjectReturnArray, Use.Correct, Use.Correct, Methods.Null, "methodName")]
-        public void MethodWithReturnsThrowArgumentNullException(MethodTypes methodType, Use useDll, Use useClass, Methods useMethod, string ExceptionParameterName) {
+        [TestCase(MethodTypes.InputVoidReturnVoid, ParameterKinds.Null, ParameterKinds.Null, MethodsKinds.Null, "dllFile")]
+        [TestCase(MethodTypes.InputVoidReturnVoid, ParameterKinds.Correct, ParameterKinds.Null, MethodsKinds.Null, "className")]
+        [TestCase(MethodTypes.InputVoidReturnVoid, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Null, "methodName")]
+        [TestCase(MethodTypes.InputVoidReturnArray, ParameterKinds.Null, ParameterKinds.Null, MethodsKinds.Null, "dllFile")]
+        [TestCase(MethodTypes.InputVoidReturnArray, ParameterKinds.Correct, ParameterKinds.Null, MethodsKinds.Null, "className")]
+        [TestCase(MethodTypes.InputVoidReturnArray, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Null, "methodName")]
+        [TestCase(MethodTypes.InputObjectReturnVoid, ParameterKinds.Null, ParameterKinds.Null, MethodsKinds.Null, "dllFile")]
+        [TestCase(MethodTypes.InputObjectReturnVoid, ParameterKinds.Correct, ParameterKinds.Null, MethodsKinds.Null, "className")]
+        [TestCase(MethodTypes.InputObjectReturnVoid, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Null, "methodName")]
+        [TestCase(MethodTypes.InputObjectReturnArray, ParameterKinds.Null, ParameterKinds.Null, MethodsKinds.Null, "dllFile")]
+        [TestCase(MethodTypes.InputObjectReturnArray, ParameterKinds.Correct, ParameterKinds.Null, MethodsKinds.Null, "className")]
+        [TestCase(MethodTypes.InputObjectReturnArray, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Null, "methodName")]
+        public void MethodThrowArgumentNullException(MethodTypes methodType, ParameterKinds useDll, ParameterKinds useClass, MethodsKinds useMethod, string ExceptionParameterName) {
             LibraryInvoke invoker = new LibraryInvoke();
             string dllFile = _chest.GetDllFile(useDll);
             string className = _chest.GetClassName(useClass);
             string MethodName = _chest.GetMethodName(useMethod);
-            TestDelegate @delegate = GetDelegate(methodType, invoker, dllFile, className, MethodName);
+            TestDelegate @delegate = _chest.GetDelegate(methodType, invoker, dllFile, className, MethodName);
 
             ArgumentNullException ex = Assert.Throws<ArgumentNullException>(@delegate);
 
@@ -32,43 +32,28 @@ namespace TestCSharpInteropService {
         }
 
         [Test]
-        [TestCase(MethodTypes.InputVoidReturnVoid, Use.Incorrect, Use.Incorrect, Methods.Incorrect, "dllFile")]
-        [TestCase(MethodTypes.InputVoidReturnVoid, Use.Correct, Use.Incorrect, Methods.Incorrect, "className")]
-        [TestCase(MethodTypes.InputVoidReturnVoid, Use.Correct, Use.Correct, Methods.Incorrect, "methodName")]
-        [TestCase(MethodTypes.InputVoidReturnArray, Use.Incorrect, Use.Incorrect, Methods.Incorrect, "dllFile")]
-        [TestCase(MethodTypes.InputVoidReturnArray, Use.Correct, Use.Incorrect, Methods.Incorrect, "className")]
-        [TestCase(MethodTypes.InputVoidReturnArray, Use.Correct, Use.Correct, Methods.Incorrect, "methodName")]
-        [TestCase(MethodTypes.InputObjectReturnVoid, Use.Incorrect, Use.Incorrect, Methods.Incorrect, "dllFile")]
-        [TestCase(MethodTypes.InputObjectReturnVoid, Use.Correct, Use.Incorrect, Methods.Incorrect, "className")]
-        [TestCase(MethodTypes.InputObjectReturnVoid, Use.Correct, Use.Correct, Methods.Incorrect, "methodName")]
-        [TestCase(MethodTypes.InputObjectReturnArray, Use.Incorrect, Use.Incorrect, Methods.Incorrect, "dllFile")]
-        [TestCase(MethodTypes.InputObjectReturnArray, Use.Correct, Use.Incorrect, Methods.Incorrect, "className")]
-        [TestCase(MethodTypes.InputObjectReturnArray, Use.Correct, Use.Correct, Methods.Incorrect, "methodName")]
-        public void MethodWithoutReturnsThrowArgumentException(MethodTypes methodType, Use useDll, Use useClass, Methods useMethod, string ExceptionParameterName) {
+        [TestCase(MethodTypes.InputVoidReturnVoid, ParameterKinds.Incorrect, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "dllFile")]
+        [TestCase(MethodTypes.InputVoidReturnVoid, ParameterKinds.Correct, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "className")]
+        [TestCase(MethodTypes.InputVoidReturnVoid, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Incorrect, "methodName")]
+        [TestCase(MethodTypes.InputVoidReturnArray, ParameterKinds.Incorrect, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "dllFile")]
+        [TestCase(MethodTypes.InputVoidReturnArray, ParameterKinds.Correct, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "className")]
+        [TestCase(MethodTypes.InputVoidReturnArray, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Incorrect, "methodName")]
+        [TestCase(MethodTypes.InputObjectReturnVoid, ParameterKinds.Incorrect, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "dllFile")]
+        [TestCase(MethodTypes.InputObjectReturnVoid, ParameterKinds.Correct, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "className")]
+        [TestCase(MethodTypes.InputObjectReturnVoid, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Incorrect, "methodName")]
+        [TestCase(MethodTypes.InputObjectReturnArray, ParameterKinds.Incorrect, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "dllFile")]
+        [TestCase(MethodTypes.InputObjectReturnArray, ParameterKinds.Correct, ParameterKinds.Incorrect, MethodsKinds.Incorrect, "className")]
+        [TestCase(MethodTypes.InputObjectReturnArray, ParameterKinds.Correct, ParameterKinds.Correct, MethodsKinds.Incorrect, "methodName")]
+        public void MethodThrowArgumentException(MethodTypes methodType, ParameterKinds useDll, ParameterKinds useClass, MethodsKinds useMethod, string ExceptionParameterName) {
             LibraryInvoke invoker = new LibraryInvoke();
             string dllFile = _chest.GetDllFile(useDll);
             string className = _chest.GetClassName(useClass);
             string MethodName = _chest.GetMethodName(useMethod);
-            TestDelegate @delegate = GetDelegate(methodType, invoker, dllFile, className, MethodName);
+            TestDelegate @delegate = _chest.GetDelegate(methodType, invoker, dllFile, className, MethodName);
 
             ArgumentException ex = Assert.Throws<ArgumentException>(@delegate);
 
             Assert.AreEqual(ExceptionParameterName, ex.ParamName);
-        }
-
-        private static TestDelegate GetDelegate(MethodTypes useArguments, LibraryInvoke invoker, string dllFile, string className, string MethodName) {
-            switch (useArguments) {
-                case MethodTypes.InputObjectReturnArray:
-                    return new TestDelegate(() => invoker.GenericInvoke(dllFile, className, MethodName, null));
-                case MethodTypes.InputObjectReturnVoid:
-                    return new TestDelegate(() => invoker.GenericInvokeSub(dllFile, className, MethodName, null));
-                case MethodTypes.InputVoidReturnArray:
-                    return new TestDelegate(() => invoker.GenericInvoke(dllFile, className, MethodName));
-                case MethodTypes.InputVoidReturnVoid:
-                    return new TestDelegate(() => invoker.GenericInvokeSub(dllFile, className, MethodName));
-                default:
-                    throw new ArgumentException("Недопустимое значение перечисления.");
-            }
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace TestCSharpInteropService {
-    public enum Methods {
+    public enum MethodsKinds {
         Null,
         Empty,
         Incorrect,
-        InputVoidReturnVoid
+        DefaultCorrect
     }
 }
