@@ -1,4 +1,6 @@
-﻿namespace TestCSharpInteropService {
+﻿using System;
+
+namespace TestCSharpInteropService {
     class Chest {
         internal readonly string dllFile;
         internal readonly string className;
@@ -27,6 +29,51 @@
         public Chest() {
             dllFile = HelpTestLibrary.HelpTestClass.GetAddres();
             className = "HelpTestLibrary.HelpTestClass";
+        }
+
+        public string GetDllFile(Use useDll) {
+            switch (useDll) {
+                case Use.Null:
+                    return null;
+                case Use.Empty:
+                    return "";
+                case Use.Incorrect:
+                    return "IncorrectFileName";
+                case Use.Correct:
+                    return dllFile;
+                default:
+                    throw new ArgumentException("Недопустимое значение перечисления.");
+            }
+        }
+
+        public string GetClassName(Use useClass) {
+            switch (useClass) {
+                case Use.Null:
+                    return null;
+                case Use.Empty:
+                    return "";
+                case Use.Incorrect:
+                    return "IncorrectClassName";
+                case Use.Correct:
+                    return className;
+                default:
+                    throw new ArgumentException("Недопустимое значение перечисления.");
+            }
+        }
+
+        public string GetMethodName(Methods useMethod) {
+            switch (useMethod) {
+                case Methods.Null:
+                    return null;
+                case Methods.Empty:
+                    return "";
+                case Methods.Incorrect:
+                    return "IncorrectMethodName";
+                case Methods.InputVoidReturnVoid:
+                    return InputVoidReturnVoid;
+                default:
+                    throw new ArgumentException("Недопустимое значение перечисления.");
+            }
         }
     }
 }
