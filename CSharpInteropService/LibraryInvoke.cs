@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic;
@@ -16,13 +17,17 @@ namespace CSharpInteropService {
         public delegate void MessageHandler(string message);
         public event MessageHandler MessageEvent;
 
-        public object[] GenericInvoke(string dllFile, string className, string methodName, object[] parameters)
-        {
-            Assembly dll = Assembly.LoadFrom(dllFile);
+        public object[] GenericInvoke(string dllFile, string className, string methodName, object[] parameters) {
+            if (dllFile == null) throw new ArgumentNullException("dllFile", "Имя файла сборки не может быть null.");
+            if (className == null) throw new ArgumentNullException("className", "Имя класса не может быть null.");
+            if (methodName == null) throw new ArgumentNullException("methodName", "Имя метода не может быть null.");
 
-            Type classType = dll.GetType(className);
+            Type classType = GetType(dllFile, className);
+
             object classInstance = Activator.CreateInstance(classType);
             MethodInfo classMethod = classType.GetMethod(methodName);
+            if (classMethod == null) throw new ArgumentException($"метод '{methodName}' не найден в классе '{className}'.", "methodName");
+
 
             EventInfo eventMessageEvent = classType.GetEvent("MessageEvent", BindingFlags.NonPublic | BindingFlags.Static);
 
@@ -35,6 +40,18 @@ namespace CSharpInteropService {
             }
 
             return (object[])classMethod.Invoke(classInstance, parameters);
+        }
+
+        private static Type GetType(string dllFile, string className) {
+            if (!File.Exists(dllFile)) throw new ArgumentException($"Сборка не найдена по указаному адресу.\n'{dllFile}'", "dllFile");
+
+            Assembly dll = Assembly.LoadFrom(dllFile);
+            if (dll == null) throw new ArgumentException($"Сборка не могла быть загружена.\n'{dllFile}'", "dllFile");
+
+            Type classType = dll.GetType(className);
+            if (classType == null) throw new ArgumentException($"Класс '{className}' не найден в сборке.", "className");
+
+            return classType;
         }
 
         private Delegate GetDelegate(EventInfo eventMessageEvent) {
