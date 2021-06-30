@@ -2,7 +2,7 @@ using CSharpInteropService;
 using NUnit.Framework;
 
 namespace TestCSharpInteropService {
-    public class TestLibraryInvoke_WithoutReturnValue {
+    public class Test_WithoutReturnValue {
         private static Chest _chest = new Chest();
 
         [SetUp]
